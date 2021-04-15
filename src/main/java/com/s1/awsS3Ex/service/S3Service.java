@@ -7,8 +7,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.s1.awsS3Ex.domain.repository.GalleryRepository;
-import com.s1.awsS3Ex.dto.GalleryDto;
+import com.s1.awsS3Ex.domain.entity.GalleryImage;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,15 +18,15 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-
+@Log4j2
 @Service
 public class S3Service {
 
     public static final String CLOUD_FRONT_DOMAIN_NAME="d1482gbgc9jhx6.cloudfront.net";
 
     private AmazonS3 s3Client;
-
 
 
     @Value("${cloud.aws.credentials.accessKey}")
@@ -43,8 +43,10 @@ public class S3Service {
 
 
 
-    @Transactional
+
+
     // 의존성 주입 후 초기화를 수행하는 메서드 -> bean이 한번만 초기화
+    @Transactional
     @PostConstruct
     public void setS3Client(){
 
@@ -59,30 +61,34 @@ public class S3Service {
 
     }
 
-    @Transactional
+
     // 업로드 메소드
-    public String upload(String currentFilePath, MultipartFile file) throws IOException {
+    @Transactional
+    public String upload(List<GalleryImage> currentFilePath, MultipartFile file) throws IOException {
 
         // 고유한 key 값을 갖기위해 현재 시간을 postfix로 붙여줌
-        SimpleDateFormat date = new SimpleDateFormat("yyyymmddHHmmss");
-        String fileName = file.getOriginalFilename() + "-" + date.format(new Date());
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
+        String fileName = date.format(new Date()) + "_"+ file.getOriginalFilename();
 
 
-        // 저장/ 수정 업로드 -> 조건문
-        if ("".equals(currentFilePath) == false && currentFilePath != null) {
+        log.info(currentFilePath);
 
 
-
-            // 버킷에 해당 key를 가진 객체가 존재하는지 확인한다.
-            boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
-
-
-            // 이미지 수정 시, 기존의 이미지를 버킷에 제거해줘야 버킷의 용량을 줄일 수 있다 -> deleteObject로 객체를 제거한다.
-            if(isExistObject == true)
-                s3Client.deleteObject(bucket, currentFilePath);
-
-        }
-
+//        // 저장/ 수정 업로드 -> 조건문
+//        if ("".equals(currentFilePath) == false && currentFilePath != null) {
+//
+//
+//
+//            // 버킷에 해당 key를 가진 객체가 존재하는지 확인한다.
+//            boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
+//
+//
+//            // 이미지 수정 시, 기존의 이미지를 버킷에 제거해줘야 버킷의 용량을 줄일 수 있다 -> deleteObject로 객체를 제거한다.
+//            if(isExistObject == true)
+//                s3Client.deleteObject(bucket, currentFilePath);
+//
+//        }
+//
 
 
 

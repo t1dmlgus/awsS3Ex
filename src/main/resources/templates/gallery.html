@@ -7,13 +7,12 @@
 <body>
     <h1>파일 업로드</h1> <hr>
 
-        <form th:action="@{/gallery}" method="post" enctype="multipart/form-data">
+        <form id="upload01">
             제목 : <input type="text" name="title"> <br>
-            파일 : <input type="file" name="file"> <br>
-            <button>등록하기</button>
+            파일 : <input type="file" name="file" multiple> <br>
+
         </form>
-
-
+        <button id="btn_upload">등록하기</button>
         <hr>
 
         <div th:each="gallery : ${galleryList}">
@@ -41,5 +40,7 @@
         </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/gallery.js"></script>
+
 </body>
 </html>

@@ -25,6 +25,7 @@ public class GalleryController {
     private GalleryService galleryService;
 
 
+
     @GetMapping("/gallery")
     public String dispWrite(Model model){
 
@@ -40,32 +41,27 @@ public class GalleryController {
         return "/gallery";
     }
 
+//    @PostMapping("/gallery")
+//    public String exeWrite(GalleryDto galleryDto, MultipartFile file) throws IOException {
+//
+//        log.info("파라미터 galleryDto : "+ galleryDto);
+//
+//        log.info("파라미터 파일 이름 :  "+ file.getOriginalFilename());
+//        log.info("파라미터 파일 사이즈 :  "+ file.getSize());
+//        log.info("파라미터 파일 타입 :  "+ file.getContentType());
+//
+//
+//
+//        String imgPath = s3Service.upload(galleryDto.getFilePath(), file);
+//        galleryDto.setFilePath(imgPath);
+//
+//        log.info("galleryDto.imgPath : "+galleryDto);
+//
+//
+//        galleryService.savePost(galleryDto);
+//
+//        return "redirect:/gallery";
+//    }
 
-    @PostMapping("/gallery")
-    public String exeWrite(GalleryDto galleryDto, MultipartFile file) throws IOException {
-
-        log.info("파라미터 galleryDto : "+ galleryDto);
-
-        log.info("파라미터 파일 :  "+ file);
-        log.info("파라미터 파일 이름 :  "+ file.getOriginalFilename());
-        log.info("파라미터 파일 네임 :  "+ file.getName());
-        log.info("파라미터 파일 네임 :  "+ file.toString());
-        log.info("파라미터 파일 리소스 :  "+ file.getResource());
-
-        log.info("파라미터 파일 사이즈 :  "+ file.getSize());
-        log.info("파라미터 파일 타입 :  "+ file.getContentType());
-
-
-
-        String imgPath = s3Service.upload(galleryDto.getFilePath(), file);
-        galleryDto.setFilePath(imgPath);
-
-        log.info("pp"+galleryDto);
-
-
-        galleryService.savePost(galleryDto);
-
-        return "redirect:/gallery";
-    }
 
 }
