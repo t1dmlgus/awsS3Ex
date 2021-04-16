@@ -3,7 +3,7 @@ var gallery ={
 
     init: function(){
 
-        $("#btn_upload").on('click',()=>{
+        $("#btn_save").on('click',()=>{
 
             var file = $('title').val;
             console.log("~!~!");
@@ -15,10 +15,41 @@ var gallery ={
 
             for(var value of formData.values()){
                 console.log(value);
+
             }
 
+            this.save(formData);
+        });
 
-           $.ajax({
+//        $(".btn_update").on('click',()=>{
+//
+//            var form = $(".id").val();
+//
+//            console.log("수정하기");
+//            console.log(form);
+//
+//            var formData = new FormData($(form)[0]);
+//
+//            for(var value of formData.values()){
+//                console.log(value);
+//
+//            }
+//
+//
+//
+//        })
+
+    },
+
+    save: function(formData){
+
+        console.log("upload 함수");
+
+        for(var value of formData.values()){
+            console.log(value);
+        }
+
+        $.ajax({
 
                 url: '/uploadGallery',
                 processData: false,
@@ -34,34 +65,46 @@ var gallery ={
                     console.log(textStatus);
                 }
 
-            });
-
-
         });
 
 
     },
+    update : function(vv){
 
-    upload: function(){
+        console.log(vv);
 
-        console.log("upload 함수");
-        console.log(formData);
+        var form = "detail"+vv;
 
+        console.log(form);
 
-        var data = new Data;
+        var formData = new FormData($(".detail"+vv)[0]);
 
-        console.log("2222222222222222222222");
         for(var value of formData.values()){
             console.log(value);
         }
-         for(var value of formData.keys()){
-                    console.log(value);
-         }
 
+        $.ajax({
+
+            url: '/uploadGallery',
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            dataType:'json',
+            success: function(result){
+                console.log("result :" + result);
+                location.href = '/gallery';
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(textStatus);
+            }
+
+        });
 
 
 
     }
+
 
 
 }

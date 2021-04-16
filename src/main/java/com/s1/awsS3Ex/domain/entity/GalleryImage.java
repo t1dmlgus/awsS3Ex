@@ -9,7 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.net.FileNameMap;
 
-@ToString(exclude = {"galleryEntity"})
+@ToString(exclude = {"id","galleryEntity"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface GalleryImageRepository extends JpaRepository<GalleryImage, Long> {
 
-    List<GalleryImage> findByGalleryEntity(Long aa);
+    List<GalleryImage> findByGalleryEntity(GalleryEntity galleryEntity);
+    List<GalleryImage> deleteByGalleryEntity(GalleryEntity galleryEntity);
+
 }

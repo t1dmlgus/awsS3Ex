@@ -12,7 +12,7 @@
             파일 : <input type="file" name="file" multiple> <br>
 
         </form>
-        <button id="btn_upload">등록하기</button>
+        <button id="btn_save">등록하기</button>
         <hr>
 
         <div th:each="gallery : ${galleryList}">
@@ -20,19 +20,21 @@
             <div style="margin-bottom: 30px">
 
                 <p th:inline="text">제목 : [[${gallery.title}]]</p>
-                <img th:src="${gallery.imgFullPath}" style="width: 500px; height: 300px;">
+                <img th:src="${gallery.imgFullPath[0]}" style="width: 500px; height: 300px;">
             </div>
 
 
-            <form th:action="@{/gallery}" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="id" th:value="${gallery.id}">
+            <form th:class="|detail${gallery.id}|">
+                <input type="hidden" name="id" class="id" th:value="${gallery.id}">
                 <input type="hidden" name="title" th:value="${gallery.title}">
-                <input type="hidden" name="filePath" th:value="${gallery.filePath}">
-                파일 : <input type="file" name="file">
-                <br>
-                <button>수정하기</button>
+                <input type="hidden" name="filePaths" th:value="${gallery.filePath}">
+                파일 : <input type="file" name="file" multiple>
+
             </form>
 
+            <br>
+            <button th:onclick="|gallery.update(${gallery.id})|" class="btn_update" >수정하기</button>
+            <button class="btn_delete">삭제하기</button>
 
 
             <hr>

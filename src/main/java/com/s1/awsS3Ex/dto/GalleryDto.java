@@ -32,10 +32,10 @@ public class GalleryDto {
 
 
     @Builder
-    public GalleryDto(Long id, String title, List<GalleryImage> filePath) {
+    public GalleryDto(Long id, String title, List<GalleryImage> filePath, List<String> imgFullPath) {
         this.id = id;
         this.title = title;
         this.filePath = filePath;
-
+        this.imgFullPath = imgFullPath;
     }
 }

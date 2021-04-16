@@ -64,33 +64,30 @@ public class S3Service {
 
     // 업로드 메소드
     @Transactional
-    public String upload(List<GalleryImage> currentFilePath, MultipartFile file) throws IOException {
+    public String upload(String[] currentFilePath, MultipartFile file) throws IOException {
 
         // 고유한 key 값을 갖기위해 현재 시간을 postfix로 붙여줌
         SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
         String fileName = date.format(new Date()) + "_"+ file.getOriginalFilename();
 
 
-        log.info(currentFilePath);
+        // 저장/ 수정 업로드 -> 조건문
+        if (currentFilePath != null) {
 
+            // 버킷에 해당 key를 가진 객체가 존재하는지 확인한다.
+            for (String filePath : currentFilePath) {
 
-//        // 저장/ 수정 업로드 -> 조건문
-//        if ("".equals(currentFilePath) == false && currentFilePath != null) {
-//
-//
-//
-//            // 버킷에 해당 key를 가진 객체가 존재하는지 확인한다.
-//            boolean isExistObject = s3Client.doesObjectExist(bucket, currentFilePath);
-//
-//
-//            // 이미지 수정 시, 기존의 이미지를 버킷에 제거해줘야 버킷의 용량을 줄일 수 있다 -> deleteObject로 객체를 제거한다.
-//            if(isExistObject == true)
-//                s3Client.deleteObject(bucket, currentFilePath);
-//
-//        }
-//
+                filePath = filePath.substring(filePath.indexOf('=')+1, filePath.indexOf(')'));
 
+                boolean isExistObject = s3Client.doesObjectExist(bucket, filePath);
+                log.info("filePath : "+ filePath);
+                log.info("isExistObject : "+ isExistObject);
+                // 이미지 수정 시, 기존의 이미지를 버킷에 제거해줘야 버킷의 용량을 줄일 수 있다 -> deleteObject로 객체를 제거한다.
+                if (isExistObject)
+                    s3Client.deleteObject(bucket, filePath);
+            }
 
+        }
 
         // 파일 신규 업로드, 수정 업로드 모두 같은 메소드를 사용한다.
         s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
