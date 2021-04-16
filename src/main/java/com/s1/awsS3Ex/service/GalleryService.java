@@ -33,7 +33,9 @@ public class GalleryService {
 
         // gallery 저장
         System.out.println("galleryDto = " + galleryDto);
-        //GalleryEntity entity = galleryDto.toEntity();
+
+        // Repository save를 여러번 해도 되는가?
+
         GalleryEntity entity = galleryRepository.save(galleryDto.toEntity());
 
         System.out.println("entity333 = " + entity);

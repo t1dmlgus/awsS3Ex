@@ -62,6 +62,7 @@ public class GalleryApiController {
         }
         log.info("galleryDto111 : "+galleryDto);
 
+        // galleryDto 초기화
         galleryDto.setFilePath(null);
         galleryDto.setFilePath(images);
 
