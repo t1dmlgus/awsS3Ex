@@ -103,9 +103,44 @@ var gallery ={
 
 
 
+    },
+    delete: function(v2){
+
+        console.log(v2);
+
+        var formData = new FormData($(".detail"+v2)[0]);
+
+        for(var value of formData.values()){
+            console.log(value);
+        }
+
+
+        $.ajax({
+
+            url: '/uploadGallery',
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'Delete',
+            dataType:'json',
+            success: function(result){
+                console.log("result :" + result);
+                location.href = '/gallery';
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(textStatus);
+            }
+
+        });
+
+
+
+
+
+
+
+
     }
-
-
 
 }
 

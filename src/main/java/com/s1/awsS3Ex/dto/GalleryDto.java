@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
@@ -38,4 +40,21 @@ public class GalleryDto {
         this.filePath = filePath;
         this.imgFullPath = imgFullPath;
     }
+
+
+    public void convertStringToDto(String[] filePaths){
+        filePath = new ArrayList<>();
+
+        for (String path : filePaths) {
+            String substring = path.substring(path.indexOf("=") + 1, path.indexOf(")"));
+
+            filePath.add(new GalleryImage(substring));
+        }
+
+    }
+
+
+
+
+
 }

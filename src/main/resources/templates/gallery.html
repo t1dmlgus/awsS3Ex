@@ -20,7 +20,7 @@
             <div style="margin-bottom: 30px">
 
                 <p th:inline="text">제목 : [[${gallery.title}]]</p>
-                <img th:src="${gallery.imgFullPath[0]}" style="width: 500px; height: 300px;">
+                <img th:src="${gallery.imgFullPath}" style="width: 500px; height: 300px;">
             </div>
 
 
@@ -34,7 +34,7 @@
 
             <br>
             <button th:onclick="|gallery.update(${gallery.id})|" class="btn_update" >수정하기</button>
-            <button class="btn_delete">삭제하기</button>
+            <button th:onclick="|gallery.delete(${gallery.id})|" class="btn_delete">삭제하기</button>
 
 
             <hr>

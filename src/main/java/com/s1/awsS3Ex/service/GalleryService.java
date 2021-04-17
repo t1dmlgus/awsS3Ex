@@ -31,6 +31,7 @@ public class GalleryService {
     @Transactional
     public void savePost(GalleryDto galleryDto) {
 
+        System.out.println(" galleryDto savePost ------------------ ");
         // gallery 저장
         System.out.println("galleryDto = " + galleryDto);
 
@@ -56,12 +57,20 @@ public class GalleryService {
 
 
     }
-    // 수정
-    @Transactional
-    public void updatePost(GalleryDto galleryDto) {
 
+    // gallery 삭제
+    @Transactional
+    public void deletePost(GalleryDto galleryDto) {
+
+        // image 먼저 삭제
+        galleryImageRepository.deleteByGalleryEntity(galleryDto.toEntity());
+        
+        // entity 삭제
+        galleryRepository.delete(galleryDto.toEntity());
+        
 
     }
+
 
 
     // gallery List 조회
@@ -115,6 +124,8 @@ public class GalleryService {
                 .build();
 
     }
+
+
 
 
 
